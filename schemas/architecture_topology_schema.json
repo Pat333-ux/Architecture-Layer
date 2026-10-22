@@ -1,0 +1,63 @@
+JSON
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BEASTArchitectureTopologySchema",
+  "type": "object",
+  "properties": {
+    "topology_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique global identifier for the architecture topology snapshot."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "system_version": {
+      "type": "string",
+      "description": "Target version string of BEAST System 3.0 ecosystem."
+    },
+    "registered_services": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "service_name": {
+            "type": "string",
+            "description": "Identifier of the active repository or module."
+          },
+          "division_binding": {
+            "type": "string",
+            "enum": ["DIV_001_EXECUTIVE", "DIV_002_LEGISLATIVE", "DIV_003_JUDICIAL", "DIV_004_INFRASTRUCTURE", "DIV_005_SECURITY"]
+          },
+          "endpoint_status": {
+            "type": "string",
+            "enum": ["ONLINE", "STANDBY", "MAINTENANCE"]
+          }
+        },
+        "required": ["service_name", "division_binding", "endpoint_status"],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "judicial_compliance_hash": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$",
+      "description": "Division 003 approval hash certifying topology structure."
+    },
+    "sentinel_verification_sig": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$",
+      "description": "Division 005 security verification signature."
+    }
+  },
+  "required": [
+    "topology_id",
+    "timestamp",
+    "system_version",
+    "registered_services",
+    "judicial_compliance_hash",
+    "sentinel_verification_sig"
+  ],
+  "additionalProperties": false
+}
